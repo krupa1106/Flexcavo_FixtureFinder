@@ -18,5 +18,9 @@
   "homepage": "https://github.com/krupa1106/Flexcavo_FixtureFinder#readme",
   "devDependencies": {
     "cypress": "^9.1.1"
+  },
+  "dependencies": {
+    "dayjs": "^1.10.7",
+    "moment": "^2.29.1"
   }
 }

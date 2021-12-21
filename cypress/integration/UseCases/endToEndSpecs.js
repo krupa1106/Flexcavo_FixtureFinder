@@ -2,24 +2,39 @@ describe("Fields Validation and form submission", function () {
 
     let url = "http://fixturefinder.herokuapp.com/";
   
-    it("Title Verification", function () {
-      cy.visit(url).title().should("eq", "Fixture Findr");
+    it.only("Title Verification", function () {
+      cy.visit(url).title().should("eq", "Fixture Findr")
+      const tDate= Cypress.moment().format('MMMM Do YYYY')
+      cy.log(tDate)
     });
 
   
     it("Navigating to 16th of Dec 2021 for more fixtures", async () => {
       let txtCheck = false;
-      while (!txtCheck) {
-        let text = await cy.getText();
-        if (!text?.includes("Thu 16th December 2021")) {
-            cy.wait(3000)
-              .contains("button", "Previous Day").debug().click();
-          continue;
+    //   while (!txtCheck) {
+    //     let text = await cy.getText();
+    //     if (!text?.includes("Thu 16th December 2021")) {
+    //         cy.wait(3000)
+    //           .contains("button", "Previous Day").debug().click();
+    //       continue;
+    //     }
+    //     txtCheck = true;
+    //   }
+    //   cy.contains('span','26 fixtures')
+    //     .should('be.visible')
+
+        // I am clicking on the previous day untill I could see the test 16Th Dec so that I could have more fixtures to vaidate and write test cases.
+        while (!txtCheck) {
+            await cy.getText().then((val) => {
+            if (!val?.includes("Thu 16th December 2021"))
+                cy.wait(2000)
+                  .contains("button", "Previous Day")
+                  .click();
+            else txtCheck = true;
+            });
         }
-        txtCheck = true;
-      }
-      cy.contains('span','26 fixtures')
-        .should('be.visible')
+        cy.contains("span", "26 fixtures").should("be.visible");
+        
     });
 
 
@@ -59,16 +74,44 @@ describe("Fields Validation and form submission", function () {
         cy.get('[id="dropdownMenu1"]')
           .click()
           .wait(1000)
-          .contains('span','Deutschland')
+          .get('.de-txt')
+          .click()
           .wait(2000)
-          .contains('span','0 fixtures')
-          .contains('span','England')
+          .get('.numberOfFixtures')
+          .should('have.text','0 Spiele')
+          .click()
+          .get('[id="dropdownMenu1"]')
+          .click()
+          .get('.en-txt')
+          .click()
           .wait(2000)
-          .contains('span','5 fixtures')   
+          .get('.numberOfFixtures')
+          .should('have.text','5 Spiele')
     
+    })
+
+    it('Switching back to English and search for Real Madrid Match', function(){
+      cy.get('[for="en_loc"]')
+        .click()
+        .get('[id="dropdownMenu1"]')
+        .click()
+        .wait(1000)
+        .get('.all-txt')
+        .click()
+        .get('.team-filter')
+        .clear()
+        .type('real madrid')
+        .wait(1000)
+        .get('table')
+        .contains('strong', 'Real Madrid')
+        // Also Verifying only 1 fixture is the result
+        .get('.numberOfFixtures')
+        .should('have.text','1 fixtures')
+
     })
 
 
 
 
-  });
+
+});
