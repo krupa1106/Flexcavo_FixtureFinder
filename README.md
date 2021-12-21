@@ -15,3 +15,7 @@ Prerequisite and steps to run the test cases:
 - To run crossfunctionally, you need to have all the browsers in your local system.
 - To run different browsers you need to mention that specific browser name for an instance: "npx cypress open --browser firefox" or you can select which browser to run from test runner.
 - I have attached a Another file with all the test scenarios and test cases.
+- The Exploratory Testing is done using Xray tool and it would be nice to look(if you guys have time) to see in deep flow of testing use cases. the link to download the tool is: https://www.getxray.app/exploratory-testing
+- Just import TestSession.test to the app then you guys can go through what I have did and approach towards it.
+- In case if you do not want to view the in the xray app then I have attached a zip file where you will find a PDF as the same what xray is gonna show to you. The other folders have notes, Screenshots and Videos in detailed for further clarification.
+- The TestScenario.docx Will explain the user points on Exploratory testing. Its just a breif docx file as a whole.
